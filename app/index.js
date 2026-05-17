@@ -1,39 +1,46 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
 import * as SMS from 'expo-sms';
-import { connectToBand, vibrateBand } from '../services/ble';
+
+// Swap back to '../services/ble' when ESP32 arrives
+import { connectToBand, vibrateBand } from '../services/ble.mock';
 import { sendAlert, listenForAlerts } from '../services/firebase';
 import { getEmergencyContacts } from '../services/contacts';
+import AlertBanner from '../components/AlertBanner';
+import StatusDot from '../components/StatusDot';
 
 export default function HomeScreen() {
   const [connected, setConnected] = useState(false);
   const [incomingAlert, setIncomingAlert] = useState(null);
 
   useEffect(() => {
-    // Connect to band and listen for button presses
-    connectToBand(async (type) => {
-      const location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
+    connectToBand(
+      async (type) => {
+        const location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
 
-      // Send alert to Firebase so paired phone receives it
-      await sendAlert(type, latitude, longitude);
+        await sendAlert(type, latitude, longitude);
 
-      if (type === 'SOS') {
-        // Also fire SMS to emergency contacts
-        const contacts = await getEmergencyContacts();
-        const numbers = contacts.map((c) => c.phone);
-        await SMS.sendSMSAsync(
-          numbers,
-          `🆘 SOS from SafeLink. Location: https://maps.google.com/?q=${latitude},${longitude}`
-        );
-      }
-    });
+        if (type === 'SOS') {
+          const contacts = await getEmergencyContacts();
+          const numbers = contacts.map((c) => c.phone);
+          if (numbers.length > 0) {
+            await SMS.sendSMSAsync(
+              numbers,
+              `SOS from SafeLink. Location: https://maps.google.com/?q=${latitude},${longitude}`
+            );
+          }
+        }
+      },
+      () => setConnected(true)
+    );
 
-    // Listen for incoming alerts from paired user
     const unsub = listenForAlerts(async (alert) => {
-      setIncomingAlert(alert);
-      await vibrateBand(alert.type); // vibrate THIS band
+      if (!alert.seen) {
+        setIncomingAlert(alert);
+        vibrateBand(alert.type);
+      }
     });
 
     return () => unsub();
@@ -41,6 +48,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>SafeLink</Text>
       <StatusDot connected={connected} />
       {incomingAlert && (
         <AlertBanner
@@ -50,9 +58,22 @@ export default function HomeScreen() {
           onDismiss={() => setIncomingAlert(null)}
         />
       )}
-      <Text style={styles.status}>
-        {connected ? 'Band connected' : 'Searching for band...'}
-      </Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+    padding: 24,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '500',
+    color: '#534AB7',
+    marginBottom: 8,
+  },
+});

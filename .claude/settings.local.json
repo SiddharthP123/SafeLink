@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx expo *)",
+      "Bash(echo \"Started in background — PID: $!\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('expo:', d['version']\\); print\\('rn peer:', d.get\\('peerDependencies',{}\\).get\\('react-native','?'\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('react-native installed:', d['version']\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(k,v\\) for k,v in d.items\\(\\) if any\\(x in k.lower\\(\\) for x in ['screen','safe','navigation','gesture']\\)]\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('screens:', d['version']\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('safe-area:', d['version']\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('react peer:', d.get\\('peerDependencies',{}\\).get\\('react','?'\\)\\)\")",
+      "Bash(flutter --version)",
+      "Bash(brew --version)",
+      "Bash(python3 *)"
+    ]
+  }
+}
