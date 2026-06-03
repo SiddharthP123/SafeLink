@@ -61,21 +61,23 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBYG_Ct43Xokf8f14XH5mw5n_Bu9jskySg',
-    appId: '1:130637803692:ios:8ae872344885ffd9f02f09',
+    apiKey: 'AIzaSyBBkGTlGATFToi_ZKNMwYVfePxkzq449S4',
+    appId: '1:130637803692:ios:859a04eb24b124c3f02f09',
     messagingSenderId: '130637803692',
     projectId: 'connect-0-app',
     storageBucket: 'connect-0-app.firebasestorage.app',
-    iosBundleId: 'com.safelink.app',
+    iosBundleId: 'com.Siddharth.SafeLink',
+    iosClientId: '130637803692-p9qbueo75kmdob83da937ke1c6ieo9cp.apps.googleusercontent.com',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBYG_Ct43Xokf8f14XH5mw5n_Bu9jskySg',
-    appId: '1:130637803692:ios:8ae872344885ffd9f02f09',
+    apiKey: 'AIzaSyBBkGTlGATFToi_ZKNMwYVfePxkzq449S4',
+    appId: '1:130637803692:ios:859a04eb24b124c3f02f09',
     messagingSenderId: '130637803692',
     projectId: 'connect-0-app',
     storageBucket: 'connect-0-app.firebasestorage.app',
-    iosBundleId: 'com.safelink.app',
+    iosBundleId: 'com.Siddharth.SafeLink',
+    iosClientId: '130637803692-p9qbueo75kmdob83da937ke1c6ieo9cp.apps.googleusercontent.com',
   );
 
   static const FirebaseOptions windows = _base;

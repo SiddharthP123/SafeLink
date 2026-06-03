@@ -43,3 +43,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase platform config (API keys — keep off public repo)
+ios/GoogleService-Info.plist
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+# Local deploy / ops docs (contain personal Apple ID and signing identity)
+RUNBOOK.md

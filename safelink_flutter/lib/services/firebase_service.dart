@@ -24,7 +24,7 @@ class FirebaseService {
 
   /// Real-time stream of the active alert document.
   /// Emits null when the document does not exist or has been seen.
-  /// Emits a Map<String, dynamic> with keys: type, lat, lng, timestamp, seen.
+  /// Emits a map with keys: type, lat, lng, timestamp, seen.
   static Stream<Map<String, dynamic>?> alertStream() {
     return _db
         .collection(_collection)
